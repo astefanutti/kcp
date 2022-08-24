@@ -94,6 +94,13 @@ func BuildVirtualWorkspace(
 				realPath += parts[2]
 			}
 
+			if strings.HasPrefix(realPath, "/apis") {
+				key := fmt.Sprintf("%s/%s", apiExportClusterName, apiExportName)
+				completedContext = dynamiccontext.WithAPIDomainKey(completedContext, dynamiccontext.APIDomainKey(key))
+				accepted = true
+				return
+			}
+
 			//  /services/apiexport/root:org:ws/<apiexport-name>/clusters/*/api/v1/configmaps
 			//                     ┌────────────────────────────┘
 			// We are now here: ───┘
